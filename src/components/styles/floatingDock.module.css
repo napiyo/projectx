@@ -1,0 +1,8 @@
+.container {
+    /* background: black; */
+    position: fixed;
+    margin: auto;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
