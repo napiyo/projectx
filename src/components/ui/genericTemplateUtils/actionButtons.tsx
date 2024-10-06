@@ -1,5 +1,5 @@
 import { Reorder, useDragControls, motion } from "framer-motion"
-import { Button } from "@/components/instagramNodes/Interface/genericTEmplateInterface";
+import { Button } from "@/components/instagramNodes/Interface/NodesInterface";
 import { Handle, Position } from "@xyflow/react";
 import { TrashIcon } from "lucide-react";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"

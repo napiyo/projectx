@@ -15,3 +15,8 @@ export interface Button {
     buttons: Button[];
   }
   
+  export interface ButtonTemplateData {
+    title: string;
+    buttons: Button[];
+  }
+  

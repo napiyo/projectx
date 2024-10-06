@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import '@xyflow/react/dist/style.css';
 import GenericTemplateNode from '@/components/instagramNodes/genericTemplate';
 
@@ -27,14 +27,6 @@ const nodeTypes = {
   genericTemplate: GenericTemplateNode,
 };
 
-interface GenericTemplateNodeData {
-  label: string,
-  id:string,
-  type:string,
-  position:string,
-  data:string
-  // Add other properties as needed
-}
 
 const initialNodes: Node[] = [
   { id: '1', data: { label: 'Node 1' }, position: { x: 5, y: 5 } },
@@ -52,9 +44,9 @@ export default function FlowBuilder() {
   const addNode = () => {
     const newNode = {
       id: (nodes?.length + 1).toString(),
-      type: 'genericTemplate',
+      type: nodes.length%2==0?'genericTemplate':'buttonTemplate',
       position: { x: Math.random() * 250, y: Math.random() * 250 },
-      data: { label: `Node ${nodes.length + 1}` },
+      data: { label: 'generic' },
       dragHandle: '.node-dragable-from-this-div',
     };
     setNodes((nds) => [...nds,newNode]);
@@ -73,6 +65,13 @@ export default function FlowBuilder() {
     [setEdges],
   );
 
+ 
+  const nodeTypes = useMemo(() => ({
+    genericTemplate: GenericTemplateNode,
+    buttonTemplate: GenericTemplateNode
+    
+    }), []);
+
   return (
     <div className="h-screen">
 
@@ -88,6 +87,7 @@ export default function FlowBuilder() {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        colorMode='dark'
       >
         <Background />
         <Controls />

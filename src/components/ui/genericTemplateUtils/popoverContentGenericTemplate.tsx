@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PopoverContent } from "../popover";
-import { Button } from "@/components/instagramNodes/Interface/genericTEmplateInterface";
+import { Button } from "@/components/instagramNodes/Interface/NodesInterface";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"
 import { AnimatePresence, motion } from "framer-motion"
 import { Input } from "../input";

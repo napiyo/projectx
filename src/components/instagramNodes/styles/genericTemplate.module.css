@@ -4,7 +4,7 @@
     box-sizing: border-box;
     height: fit-content;
     width: 275px;
-    border-radius: 20px 20px 0 0;
+    /* overflow: hidden; */
     position: relative;
 }
 
@@ -14,8 +14,9 @@
     padding: 15px;
     row-gap: 5px;
     background-color: #EFEFEF;
-    border-radius: 0 0 20px 20px;
-    overflow: hidden;
+    border-end-end-radius: 20px;
+    border-end-start-radius: 20px;
+    /* overflow: hidden; */
     cursor: default;
 }
 

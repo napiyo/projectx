@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Handle, Position } from "@xyflow/react";
+import { Handle, NodeProps, Position } from "@xyflow/react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import style from "./styles/genericTemplate.module.css";
@@ -8,12 +8,14 @@ import { IconAdCircle, IconPlus } from "@tabler/icons-react";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { TrashIcon } from "lucide-react";
 import { AnimatePresence, DragControls, motion, Reorder, useDragControls } from "framer-motion";
-import { Button,GenericTemplateData } from "./Interface/genericTEmplateInterface";
+import { Button,GenericTemplateData } from "./Interface/NodesInterface";
 import ActionButton from "../ui/genericTemplateUtils/actionButtons";
 import PopoverContentGenericTemplate from "../ui/genericTemplateUtils/popoverContentGenericTemplate";
 
 // Genric Template Node
-const GenericTemplateNode = () => {
+const GenericTemplateNode = ({type}:{type:string}) => {
+console.log(type);
+
   // Buttons to show , type -> web_url or posback
   const [buttons, setButtons] = useState<Button[]>([
     // { id: 1, type: "web_url", title: "Shop Now" },
@@ -24,7 +26,7 @@ const GenericTemplateNode = () => {
     title: "",
     buttons: buttons,
   });
-  const [idbutton, setIdbutton] = useState<number>(66);
+  const [idbutton, setIdbutton] = useState<number>(1);
   const [popOverOpened, setpopOverOpened] = useState(false);
   // Function to add a button
   const addButton = (btn:Button) => {
@@ -40,19 +42,22 @@ const GenericTemplateNode = () => {
 
   
   return (
-    <div className={style.container}>
+    <div className={`${style.container} ${type=="buttonTemplate"?"buttonTemplateContainer":""}`}>
+      <div className="bg-black text-white font-semibold text-sm w-1/2 text-center rounded-tl-xl rounded-tr-xl border-2 border-b-0 border-white py-1 node-dragable-from-this-div items-center m-auto">Drag from here</div>
+      { type=="genericTemplate"&&
       <Image
-        src="/imgPlaceholder.png"
+        src="/MainAfter.png"
         alt="image placeholder"
         width={100}
         height={100}
         layout="responsive"
-        className="node-dragable-from-this-div"
-      />
+        className="node-dragable-from-this-div rounded-t-2xl"
+      />}
+      
       {/* content box */}
-      <div className={style.contentContainer}>
+      <div className={` ${type=="buttonTemplate"?"rounded-t-2xl":""} ${style.contentContainer}`}>
         {/* Title and sub-heading box  */}
-        <div className="flex flex-col gap-0">
+        <div className={`flex flex-col gap-0 ${type=="buttonTemplate"?"":""}`} >
           <Input
             id="title"
             placeholder="Title"
@@ -61,8 +66,9 @@ const GenericTemplateNode = () => {
               e.target.value.length <= 80 &&
               setData((d) => ({ ...d, title: e.target.value.trimStart() }))
             }
-            className="text-xl text-ellipsis font-semibold px-1 bg-transparent m-0 p-0"
+            className={"text-xl text-ellipsis font-semibold bg-transparent "+(type=="buttonTemplate"?"node-dragable-from-this-div":"")}
           />
+           { type=="genericTemplate" && 
           <Input
             id="subtitle"
             placeholder="subtitle"
@@ -71,8 +77,9 @@ const GenericTemplateNode = () => {
               e.target.value.length <= 80 &&
               setData((d) => ({ ...d, subtitle: e.target.value.trimStart() }))
             }
-            className="text-sm w-2/3 h-8 text-ellipsis px-1 text-gray-500 font-semibold bg-transparent"
+            className="text-sm w-2/3 h-8 text-ellipsis text-gray-500 font-semibold bg-transparent"
           />
+}
         </div>
         {/* END - Title and sub-heading box  */}
         {/* Buttons Container with Add button buttons */}
