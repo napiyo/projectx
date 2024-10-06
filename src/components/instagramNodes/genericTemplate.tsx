@@ -10,6 +10,7 @@ import { TrashIcon } from "lucide-react";
 import { AnimatePresence, DragControls, motion, Reorder, useDragControls } from "framer-motion";
 import { Button,GenericTemplateData } from "./Interface/genericTEmplateInterface";
 import ActionButton from "../ui/genericTemplateUtils/actionButtons";
+import PopoverContentGenericTemplate from "../ui/genericTemplateUtils/popoverContentGenericTemplate";
 
 // Genric Template Node
 const GenericTemplateNode = () => {
@@ -24,16 +25,12 @@ const GenericTemplateNode = () => {
     buttons: buttons,
   });
   const [idbutton, setIdbutton] = useState<number>(66);
+  const [popOverOpened, setpopOverOpened] = useState(false);
   // Function to add a button
-  const addButton = () => {
-    const newButton: Button = {
-      type: "postback",
-      id: idbutton,
-      title: `Button ${buttons.length + 1}`,
-      payload: `payload_${buttons.length + 1}`,
-    };
+  const addButton = (btn:Button) => {
+    setButtons([...buttons, ({...btn,id:idbutton})]);
     setIdbutton(idbutton + 1);
-    setButtons([...buttons, newButton]);
+    setpopOverOpened(false);
   };
   
   // Function to remove a button
@@ -84,16 +81,23 @@ const GenericTemplateNode = () => {
           values={buttons}
           onReorder={(newButtons) => setButtons(newButtons)} // This will handle reordering
           className={style.buttonsContainer}
-          transition={{duration:5}}
         >
+          <AnimatePresence mode="sync">
+
           {buttons.map((button, index) => (<ActionButton key={button.id} button={button} removeButton={removeButton}/>))}
+          </AnimatePresence>
         </Reorder.Group>
 
-        <button onClick={() => addButton()}>Add me</button>
+        <Popover open={popOverOpened} onOpenChange={setpopOverOpened}>
+    <PopoverTrigger >Add Button</PopoverTrigger>
+            <PopoverContentGenericTemplate addButton={addButton}/>
+    </Popover>
         {/* END - Buttons Container with Add button buttons */}
       </div>
 
       <Handle position={Position.Left} type="target" />
+     
+
     </div>
   );
 };
