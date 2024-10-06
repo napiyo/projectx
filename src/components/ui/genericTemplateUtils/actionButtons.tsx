@@ -5,7 +5,7 @@ import { TrashIcon } from "lucide-react";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"
 
 
-function ButtonItem({ button,removeButton  }:{button:Button,removeButton :(id:number)=>void}) {
+function ActionButton({ button,removeButton  }:{button:Button,removeButton :(id:number)=>void}) {
   const controls = useDragControls();
   return (
     <Reorder.Item
@@ -16,16 +16,16 @@ function ButtonItem({ button,removeButton  }:{button:Button,removeButton :(id:nu
             >
               <div className={style.buttonWrapper}>
                 <button className="group w-full h-11 bg-white relative inline-flex items-center font-semibold justify-center overflow-hidden p-4 px-6 py-3 text-base transition duration-300 ease-out rounded-md"
-                //  onPointerDown={(e) => {
-                //   controls.start(e); // Start dragging
-                // }} 
+                 onPointerDown={(e) => {
+                  controls.start(e); // Start dragging
+                }} 
                 >
                   <span className="absolute left-2 flex items-center">
                     <TrashIcon
                       className="hidden group-hover:block text-red-500"
                       onClick={(e) => {
                         // e.stopPropagation();
-                        // removeButton(button.id)
+                        removeButton(button.id)
 
                       }}
                       onPointerDown={(e) => controls.start(e)}
@@ -48,4 +48,4 @@ function ButtonItem({ button,removeButton  }:{button:Button,removeButton :(id:nu
 }
 
 
-export default ButtonItem;
+export default ActionButton;
