@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import '@xyflow/react/dist/style.css';
 import GenericTemplateNode from '@/components/instagramNodes/genericTemplate';
 
@@ -22,18 +22,16 @@ import {
   Controls,
   MiniMap,
 } from '@xyflow/react';
+import { GenericTemplateData } from '@/components/instagramNodes/Interface/NodesInterface';
 
 const nodeTypes = {
   genericTemplate: GenericTemplateNode,
 };
 
 
-const initialNodes: Node[] = [
-  { id: '1', data: { label: 'Node 1' }, position: { x: 5, y: 5 } },
-  { id: '2', data: { label: 'Node 2' }, position: { x: 5, y: 100 } },
-];
+const initialNodes: Node[] = [];
  
-const initialEdges: Edge[] = [{ id: 'e1-2', source: '1', target: '2' }];
+const initialEdges: Edge[] = [];
 
 
 export default function FlowBuilder() {
@@ -44,9 +42,9 @@ export default function FlowBuilder() {
   const addNode = () => {
     const newNode = {
       id: (nodes?.length + 1).toString(),
-      type: nodes.length%2==0?'genericTemplate':'buttonTemplate',
+      type: 'genericTemplate',
       position: { x: Math.random() * 250, y: Math.random() * 250 },
-      data: { label: 'generic' },
+      data: {setNodes, title:"new",buttons:[]},
       dragHandle: '.node-dragable-from-this-div',
     };
     setNodes((nds) => [...nds,newNode]);
@@ -77,7 +75,7 @@ export default function FlowBuilder() {
 
       <button 
         onClick={addNode} 
-        className="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+        className="bg-blue-500 text-white font-bold py-2 px-4 rounded absolute top-0 left-0 z-10">
         Add Generic Template Node
       </button>
       <ReactFlow
