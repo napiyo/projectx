@@ -23,9 +23,13 @@ import {
   MiniMap,
 } from '@xyflow/react';
 import { GenericTemplateData } from '@/components/instagramNodes/Interface/NodesInterface';
+import { FloatingDock } from '@/components/ui/floating-dock';
+import { HomeIcon } from 'lucide-react';
+import FloatingDockFlowBuilder from '@/components/floatingDock';
 
 const nodeTypes = {
   genericTemplate: GenericTemplateNode,
+    buttonTemplate: GenericTemplateNode
 };
 
 
@@ -39,16 +43,6 @@ export default function FlowBuilder() {
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
   
   // Function to add a new node
-  const addNode = () => {
-    const newNode = {
-      id: (nodes?.length + 1).toString(),
-      type: 'genericTemplate',
-      position: { x: Math.random() * 250, y: Math.random() * 250 },
-      data: {setNodes, title:"new",buttons:[]},
-      dragHandle: '.node-dragable-from-this-div',
-    };
-    setNodes((nds) => [...nds,newNode]);
-  };
 
   const onNodesChange: OnNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -64,20 +58,20 @@ export default function FlowBuilder() {
   );
 
  
-  const nodeTypes = useMemo(() => ({
-    genericTemplate: GenericTemplateNode,
-    buttonTemplate: GenericTemplateNode
+  // const nodeTypes = useMemo(() => ({
     
-    }), []);
+    
+  //   }), []);
 
+  // items: { title: string; icon: React.ReactNode; href: string }[];
   return (
     <div className="h-screen">
 
-      <button 
+      {/* <button 
         onClick={addNode} 
         className="bg-blue-500 text-white font-bold py-2 px-4 rounded absolute top-0 left-0 z-10">
         Add Generic Template Node
-      </button>
+      </button> */}
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -87,6 +81,7 @@ export default function FlowBuilder() {
         nodeTypes={nodeTypes}
         colorMode='dark'
       >
+        <FloatingDockFlowBuilder />
         <Background />
         <Controls />
         <MiniMap />
