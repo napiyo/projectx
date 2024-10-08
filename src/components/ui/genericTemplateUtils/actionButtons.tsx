@@ -3,13 +3,13 @@ import { Button } from "@/components/instagramNodes/Interface/NodesInterface";
 import { Handle, Position, useUpdateNodeInternals } from "@xyflow/react";
 import { TrashIcon } from "lucide-react";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 
 function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButton :(id:number)=>void,nodeid:string}) {
   const controls = useDragControls();
   const updateNodeInternals = useUpdateNodeInternals();
-  
+  const [isReordering, setisReordering] = useState(false)
   return (
     <Reorder.Item
               key={button.id} // Use index or unique identifier as key
@@ -23,7 +23,6 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                 }, 800);
                 
               }}
-              transition={{ duration: 0 }} // Disable animation 
             >
               <motion.div className={style.buttonWrapper}
                key={button.id}
@@ -35,7 +34,10 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                 <button className="group w-full h-11 bg-white relative inline-flex items-center font-semibold justify-center overflow-hidden p-4 px-6 py-3 text-base ease-out rounded-md cursor-grab"
                  onPointerDown={(e) => {
                   controls.start(e); // Start dragging
+                  // setisReordering(true);
+
                 }} 
+                // onPointerUp={(e)=>setisReordering(false)}
                 >
                   <span className="absolute left-2 flex items-center">
                     <TrashIcon

@@ -72,6 +72,7 @@ function FloatingDockBtn({
                 data: {title:"",buttons:[]},
                 dragHandle: '.node-dragable-from-this-div',
             };
+            
             setNodes((nds) => [...nds,newNode]);
 }
 

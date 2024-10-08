@@ -104,8 +104,8 @@ const FloatingDockDesktop = ({
         className
       )}
     >
-      {items.map((item) => (
-        <FloatingDockBtn mouseX={mouseX} key={item.title} {...item}/>
+      {items.map((item,index) => (
+        <FloatingDockBtn mouseX={mouseX} key={index} {...item}/>
       ))}
     </motion.div>
   );
