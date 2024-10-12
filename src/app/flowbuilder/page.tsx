@@ -26,14 +26,21 @@ import { GenericTemplateData } from '@/components/instagramNodes/Interface/Nodes
 import { FloatingDock } from '@/components/ui/floating-dock';
 import { HomeIcon } from 'lucide-react';
 import FloatingDockFlowBuilder from '@/components/floatingDock';
+import { QuickReply } from '@/components/instagramNodes/quickReply';
+import CustomEdge from '@/components/instagramNodes/edges/customEdge';
+
 
 const nodeTypes = {
   genericTemplate: GenericTemplateNode,
-    buttonTemplate: GenericTemplateNode
+    buttonTemplate: GenericTemplateNode,
+    quickReply:QuickReply,
 };
 
+const edgeTypes = {
+  customEdge: CustomEdge,
+};
 
-const initialNodes: Node[] = [];
+const initialNodes: Node[] = [{id:'startNode',data:{label:"start"},position:{x:200,y:600},draggable:true}];
  
 const initialEdges: Edge[] = [];
 
@@ -53,7 +60,7 @@ export default function FlowBuilder() {
     [setEdges],
   );
   const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    (connection) => setEdges((eds) => addEdge({ ...connection }, eds)),
     [setEdges],
   );
 
@@ -80,6 +87,8 @@ export default function FlowBuilder() {
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         colorMode='dark'
+        edgeTypes={edgeTypes}
+        // defaultEdgeOptions={{ markerEnd: "arrowclosed" }}
       >
         <FloatingDockFlowBuilder />
         <Background />

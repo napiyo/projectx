@@ -67,7 +67,7 @@ function FloatingDockBtn({
     const addNode = ()=>{ 
             const newNode = {
                 id: (getNodes()?.length + 1).toString(),
-                type: 'genericTemplate',
+                type: type,
                 position: { x: Math.random() * 250, y: Math.random() * 250 },
                 data: {title:"",buttons:[]},
                 dragHandle: '.node-dragable-from-this-div',

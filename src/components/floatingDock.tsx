@@ -1,13 +1,13 @@
-import { Icon12Hours, IconActivity, IconHome } from "@tabler/icons-react";
+import { Icon12Hours, IconAccessible, IconActivity, IconHome } from "@tabler/icons-react";
 import { FloatingDock } from "./ui/floating-dock";
 import style from './styles/floatingDock.module.css'
 import { useReactFlow } from "@xyflow/react";
 
 
 const menuItems = [
-    {title:"Home", icon:(<IconHome />), type:"home"},
-    {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
-    {title:"Home", icon:(<Icon12Hours />), type:"buttonTemplateNode"},
+    {title:"Generic Template", icon:(<IconHome />), type:"genericTemplate"},
+    {title:"Button Template", icon:(<IconAccessible />), type:"buttonTemplate"},
+    {title:"Quick Reply", icon:(<Icon12Hours />), type:"quickReply"},
     {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
     {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
     {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},

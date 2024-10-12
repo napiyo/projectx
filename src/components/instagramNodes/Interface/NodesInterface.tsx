@@ -19,4 +19,15 @@ export interface Button {
     title: string;
     buttons: Button[];
   }
-  
+
+  export function getButtonCntLimit(type:string){
+    switch (type) {
+      case "genericTemplate":
+      case "buttonTemplate":
+        return 3;
+      case "quickReply":
+        return 13;
+      default:
+        return 10;
+    }
+  }

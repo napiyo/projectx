@@ -1,38 +1,21 @@
 "use client";
 import React, {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useRef,
   useState,
 } from "react";
 import {
   Handle,
-  NodeProps,
   Position,
-  useUpdateNodeInternals,
-  Node,
   useReactFlow,
 } from "@xyflow/react";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import style from "./styles/genericTemplate.module.css";
-import { IconAdCircle, IconPlus } from "@tabler/icons-react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { TrashIcon } from "lucide-react";
-import {
-  AnimatePresence,
-  DragControls,
-  motion,
-  Reorder,
-  useDragControls,
-} from "framer-motion";
-import { Button, GenericTemplateData } from "./Interface/NodesInterface";
-import ActionButton from "../ui/genericTemplateUtils/actionButtons";
-import PopoverContentGenericTemplate from "../ui/genericTemplateUtils/popoverContentGenericTemplate";
+
+import { GenericTemplateData } from "./Interface/NodesInterface";
+
 import { PinContainer } from "@/components/ui/3d-pin";
 import { cn } from "@/lib/utils";
+import { ActionButtonList } from "../ui/genericTemplateUtils/actionButtonList";
 
 const GenericTemplateNode = ({
   type,
@@ -59,44 +42,9 @@ const GenericTemplateGeneralNode = ({
   id: string;
   data: GenericTemplateData;
 }) => {
-  const updateNodeInternals = useUpdateNodeInternals();
-  const [idbutton, setIdbutton] = useState<number>(1);
-  const [popOverOpened, setpopOverOpened] = useState(false);
   // hide drag from here in case of 3d pin is visible
   const [pinvisible, setpinvisible] = useState(false)
-  // Function to add a button
-  const addButton = (btn: Button) => {
-    const newBtns = [...data.buttons, { ...btn, id: idbutton }];
-    updateButtons(newBtns);
-    setIdbutton(idbutton + 1);
-    setpopOverOpened(false);
-    // wait for entry animation to complete
-    setTimeout(() => {
-      updateNodeInternals(id);
-    }, 400);
-  };
-
-  // Function to remove a button
-  const removeButton = (idToRemove: number) => {
-    // setButtons(buttons.filter((button, index) => button.id !== idToRemove));
-    const bts = data.buttons.filter(
-      (button, index) => button.id !== idToRemove
-    );
-    updateButtons(bts);
-    // wait for exit animation to complete
-    setTimeout(() => {
-      updateNodeInternals(id);
-    }, 400);
-  };
   const { updateNodeData } = useReactFlow();
-
-  // Function to update buttons
-  const updateButtons = useCallback(
-    (buttons: Button[]) => {
-      updateNodeData(id, { buttons });
-    },
-    [id]
-  );
 
   return (
     <div
@@ -112,7 +60,7 @@ const GenericTemplateGeneralNode = ({
       {type == "genericTemplate" && (
         <PinContainer
           title=<Input 
-          className="w-full focus-visible:ring-0 focus-visible:ring-ring-0"
+          className="w-full focus-visible:ring-0 focus-visible:ring-ring-0 bg-transparent focus-visible:border-none"
           style={{zIndex:700}}
           value={data.image_url || ''}
           placeholder="Enter Image URL"
@@ -177,7 +125,7 @@ const GenericTemplateGeneralNode = ({
               placeholder="subtitle"
               value={data?.subtitle || ""}
               onChange={(e) =>
-                e.target.value.length <= 80 &&
+                e.target.value.trimStart().length <= 80 &&
                 // setData((d) => ({ ...d, subtitle: e.target.value.trimStart() }))
                 updateNodeData(id, { subtitle: e.target.value.trimStart() })
               }
@@ -187,32 +135,10 @@ const GenericTemplateGeneralNode = ({
         </div>
         {/* END - Title and sub-heading box  */}
         {/* Buttons Container with Add button buttons */}
-        <Reorder.Group
-          axis="y"
-          values={data.buttons}
-          onReorder={(newButtons) => updateButtons(newButtons)} // This will handle reordering
-          className={style.buttonsContainer}
-        >
-          <AnimatePresence mode="sync">
-            {data.buttons.map((button, index) => (
-              <ActionButton
-                key={button.id}
-                button={button}
-                removeButton={removeButton}
-                nodeid={id}
-              />
-            ))}
-          </AnimatePresence>
-        </Reorder.Group>
-
-        <Popover open={popOverOpened} onOpenChange={setpopOverOpened}>
-          <PopoverTrigger>Add Button</PopoverTrigger>
-          <PopoverContentGenericTemplate addButton={addButton} />
-        </Popover>
-        {/* END - Buttons Container with Add button buttons */}
+        <ActionButtonList data={data} key={id} nodeId={id} type={type}/>
       </div>
 
-      <Handle position={Position.Left} type="target" />
+      <Handle position={Position.Left} type="target" className={style.targetHandle} />
     </div>
   );
 };

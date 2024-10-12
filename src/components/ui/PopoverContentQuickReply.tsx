@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { PopoverContent } from "../popover";
 import { Button } from "@/components/instagramNodes/Interface/NodesInterface";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"
 import { AnimatePresence, motion } from "framer-motion"
-import { Input } from "../input";
+import { PopoverContent } from "./popover";
+import { Input } from "./input";
 
-function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>void}){
+function PopoverContentQuickReply({addButton}:{addButton:(button:Button)=>void}){
     const initialBtnData:Button = {id:1,title:"",type:'postback'}
     const [buttonData,setButtonData] = useState<Button>(initialBtnData)
     return (<PopoverContent>
         <div className={style.popover}>
 
 <AnimatePresence mode="sync">
-        <h1 className="text-start font-semibold py-1 text-xl">Add new button</h1>
+        <h1 className="text-start font-semibold py-1 text-xl">Add Quick Reply</h1>
     
-        <div className={`${style.radioBtns} ${buttonData.type=="web_url" && "after:translate-x-full"}`} >
+        {/* <div className={`${style.radioBtns} ${buttonData.type=="web_url" && "after:translate-x-full"}`} >
             <div className={`${buttonData.type=="postback"?style.active:""} flex-1`}
             onClick={()=>{setButtonData((data)=>{return {...data,type:"postback"}})}}
             >Normal</div>
@@ -24,14 +24,14 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
               onClick={()=>{setButtonData((data)=>{return {...data,type:"web_url"}})}}
               >Web Button</div>
             }
-  </div>
+  </div> */}
 
-      <div className="font-light text-xs py-1"
+      {/* <div className="font-light text-xs py-1"
       > {buttonData.type=='postback'? 
         "Normal Buttons can connect to another actions"
         : 
         "Web Buttons, can not connect to any action. They redirect users to external website" } 
-      </div>
+      </div> */}
       <div className="flex flex-row justify-center items-center gap-5 my-3">
 
       <label htmlFor="title_field">Title</label>
@@ -41,7 +41,7 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
         }}
         className="text-sm w-full text-ellipsis py-2 text-gray-500 font-semibold bg-transparent"
         spellCheck={false}
-        placeholder="Title"
+        placeholder="Message"
         maxLength={20}
         id="title_field"
         />
@@ -75,4 +75,4 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
     </PopoverContent>)
 }
 
-export default PopoverContentGenericTemplate;
+export default PopoverContentQuickReply;

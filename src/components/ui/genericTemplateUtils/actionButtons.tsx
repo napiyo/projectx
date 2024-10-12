@@ -9,7 +9,6 @@ import { useRef, useState } from "react";
 function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButton :(id:number)=>void,nodeid:string}) {
   const controls = useDragControls();
   const updateNodeInternals = useUpdateNodeInternals();
-  const [isReordering, setisReordering] = useState(false)
   return (
     <Reorder.Item
               key={button.id} // Use index or unique identifier as key
@@ -53,12 +52,15 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                   </span>
                 {/* Add Handle inside the button wrapper */}
                 </button>
-                <Handle
+                {
+                  button.type === "postback" && 
+                  <Handle
                   type="source"
                   position={Position.Right} // This will add it to the right of the button
                   className={style.handleRight}
                   id={`handle-${button.id}`} // Add custom class for styling
-                />
+                  />
+                }
               </motion.div>
             </Reorder.Item>
   )
