@@ -18,6 +18,7 @@ import {
   type OnNodeDrag,
   type NodeTypes,
   type DefaultEdgeOptions,
+  type ReactFlowInstance,
   Background,
   Controls,
   MiniMap,
@@ -28,23 +29,31 @@ import { HomeIcon } from 'lucide-react';
 import FloatingDockFlowBuilder from '@/components/floatingDock';
 import { QuickReply } from '@/components/instagramNodes/quickReply';
 import CustomEdge from '@/components/instagramNodes/edges/customEdge';
+import { StartNode } from '@/components/instagramNodes/startNode';
+import { MessageNode } from '@/components/instagramNodes/messageNode';
+import { CheckMsg } from '@/components/instagramNodes/checkMsg';
+import { QuickActionOnFlowBuilder } from '@/components/ui/quickActionOnFlowBuilder';
+import { SelectViewport } from '@radix-ui/react-select';
 
 
 const nodeTypes = {
   genericTemplate: GenericTemplateNode,
     buttonTemplate: GenericTemplateNode,
     quickReply:QuickReply,
+    startNode:StartNode,
+    messageNode:MessageNode,
+    checkMsgNode:CheckMsg
 };
 
 const edgeTypes = {
   customEdge: CustomEdge,
 };
 
-const initialNodes: Node[] = [{id:'startNode',data:{label:"start"},position:{x:200,y:600},draggable:true}];
+const initialNodes: Node[] = [{id:'startNode',data:{label:"start"},type:"startNode",position:{x:300,y:300},draggable:true}];
  
 const initialEdges: Edge[] = [];
 
-
+const flowKey:string = 'flow-unpublished';
 export default function FlowBuilder() {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
@@ -64,32 +73,46 @@ export default function FlowBuilder() {
     [setEdges],
   );
 
- 
-  // const nodeTypes = useMemo(() => ({
-    
-    
-  //   }), []);
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+  const onSave = useCallback(() => {
+    if (rfInstance) {
+      const flow = rfInstance.toObject();
+      localStorage.setItem(flowKey, JSON.stringify(flow));
+    }
+  }, [rfInstance]);
 
-  // items: { title: string; icon: React.ReactNode; href: string }[];
+  const onRestore = useCallback(() => {
+    const restoreFlow = async () => {
+      const storedFlow = localStorage.getItem(flowKey);
+      if(!storedFlow){
+        return
+      }
+      const flow = JSON.parse(storedFlow);
+
+      if (flow) {
+        setNodes(flow.nodes || initialNodes);
+        setEdges(flow.edges || initialEdges);
+      }
+    };
+
+    restoreFlow();
+  }, [setNodes]);
+
   return (
     <div className="h-screen">
-
-      {/* <button 
-        onClick={addNode} 
-        className="bg-blue-500 text-white font-bold py-2 px-4 rounded absolute top-0 left-0 z-10">
-        Add Generic Template Node
-      </button> */}
       <ReactFlow
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onInit={setRfInstance}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         colorMode='dark'
         edgeTypes={edgeTypes}
-        // defaultEdgeOptions={{ markerEnd: "arrowclosed" }}
+        defaultEdgeOptions={{ type: "customEdge" }}
       >
+        <QuickActionOnFlowBuilder onSave={onSave} onRestore={onRestore}/>
         <FloatingDockFlowBuilder />
         <Background />
         <Controls />

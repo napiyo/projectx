@@ -1,0 +1,7 @@
+.keywordsInputTag {
+    word-break: break-all;
+}
+
+.keywordsInput {
+    width: 100% !important;
+}

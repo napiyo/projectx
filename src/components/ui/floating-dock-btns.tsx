@@ -65,14 +65,24 @@ function FloatingDockBtn({
   
     const { getNodes,setNodes } = useReactFlow();
     const addNode = ()=>{ 
-            const newNode = {
+      let data;
+      switch (type) {
+        case "messageNode":
+          data = {msgType:"text"}
+          break;
+        case "checkMsgNode":
+          data = {msgType:"contains"}
+        default:
+          data = {title:"",subtitle:"",buttons:[]}
+          break;
+      }   
+      const newNode = {
                 id: (getNodes()?.length + 1).toString(),
                 type: type,
                 position: { x: Math.random() * 250, y: Math.random() * 250 },
-                data: {title:"",buttons:[]},
+                data: data,
                 dragHandle: '.node-dragable-from-this-div',
             };
-            
             setNodes((nds) => [...nds,newNode]);
 }
 

@@ -2,11 +2,13 @@ import { cn } from "@/lib/utils";
 import { ActionButtonList } from "../ui/genericTemplateUtils/actionButtonList";
 import { GenericTemplateData } from "./Interface/NodesInterface";
 import style from "./styles/quickReply.module.css"
+import commonStyle from "./styles/common.module.css"
 import { Input } from "../ui/input";
 import { IconCamera, IconImageInPicture, IconPhoto, IconSticker2 } from "@tabler/icons-react";
-import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { Handle, NodeToolbar, Position, useReactFlow } from "@xyflow/react";
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { DragHereComp } from "./commonComp";
+
 export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,type:string})
 {
     const { updateNodeData } = useReactFlow();
@@ -43,9 +45,11 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
             onClick={()=> setshowPreview((p)=>!p)}> {showPreview?"Show":"Hide"} Preview</div>
         </div>
         
-<div className={cn("node-dragable-from-this-div","bg-black text-white font-semibold text-sm w-1/2 text-center rounded-tl-xl rounded-tr-xl border-2 border-b-0 opacity-100 border-white py-1 items-center m-auto transition-opacity duration-500")}>
+{/* <div className={cn("node-dragable-from-this-div","bg-black text-white font-semibold text-sm w-1/2 text-center rounded-tl-xl rounded-tr-xl border-2 border-b-0 opacity-100 border-white py-1 items-center m-auto transition-opacity duration-500")}>
         Drag from here
-      </div>
+      </div> */}
+      <DragHereComp nodeId={id} />
+
       <div className={style.contentBox}>
         <Input placeholder="Enter Your Message"
         value={data?.subtitle || ""}
@@ -56,7 +60,7 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
         }
         />
         <ActionButtonList data={data} nodeId={id} key={'actionList_'+id} type={type}/>
-        <Handle key={'hand'+id} position={Position.Left} type="target"/>
+        <Handle key={'handleQuickReplyTrgt'+id} position={Position.Left} type="target" className={commonStyle.targetHandle}/>
       </div>
     </div>
     );

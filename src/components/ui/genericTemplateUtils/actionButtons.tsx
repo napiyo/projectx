@@ -3,7 +3,7 @@ import { Button } from "@/components/instagramNodes/Interface/NodesInterface";
 import { Handle, Position, useUpdateNodeInternals } from "@xyflow/react";
 import { TrashIcon } from "lucide-react";
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css"
-import { useRef, useState } from "react";
+import commonStyle from "@/components/instagramNodes/styles/common.module.css"
 
 
 function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButton :(id:number)=>void,nodeid:string}) {
@@ -57,7 +57,7 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                   <Handle
                   type="source"
                   position={Position.Right} // This will add it to the right of the button
-                  className={style.handleRight}
+                  className={commonStyle.sourceHandleBtn}
                   id={`handle-${button.id}`} // Add custom class for styling
                   />
                 }

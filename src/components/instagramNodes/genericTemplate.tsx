@@ -10,12 +10,13 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import style from "./styles/genericTemplate.module.css";
-
+import commonStyle from "./styles/common.module.css"
 import { GenericTemplateData } from "./Interface/NodesInterface";
 
 import { PinContainer } from "@/components/ui/3d-pin";
 import { cn } from "@/lib/utils";
 import { ActionButtonList } from "../ui/genericTemplateUtils/actionButtonList";
+import { DragHereComp } from "./commonComp";
 
 const GenericTemplateNode = ({
   type,
@@ -52,11 +53,7 @@ const GenericTemplateGeneralNode = ({
         type == "buttonTemplate" ? "buttonTemplateContainer" : ""
       }`}
     >
-      <div className={cn("node-dragable-from-this-div","bg-black text-white font-semibold text-sm w-1/2 text-center rounded-tl-xl rounded-tr-xl border-2 border-b-0 opacity-100 border-white py-1 items-center m-auto transition-opacity duration-500",
-        pinvisible?'opacity-0':''
-      )}>
-        Drag from here
-      </div>
+     <DragHereComp hidden={pinvisible} nodeId={id}/>
       {type == "genericTemplate" && (
         <PinContainer
           title=<Input 
@@ -129,7 +126,7 @@ const GenericTemplateGeneralNode = ({
                 // setData((d) => ({ ...d, subtitle: e.target.value.trimStart() }))
                 updateNodeData(id, { subtitle: e.target.value.trimStart() })
               }
-              className="text-sm w-2/3 h-8 text-ellipsis text-gray-500 font-semibold bg-transparent"
+              className="text-sm w-2/3 h-8 text-ellipsis text-gray-500 font-semibold bg-transparent mt-2"
             />
           )}
         </div>
@@ -138,7 +135,7 @@ const GenericTemplateGeneralNode = ({
         <ActionButtonList data={data} key={id} nodeId={id} type={type}/>
       </div>
 
-      <Handle position={Position.Left} type="target" className={style.targetHandle} />
+      <Handle position={Position.Left} type="target" className={commonStyle.targetHandle} />
     </div>
   );
 };

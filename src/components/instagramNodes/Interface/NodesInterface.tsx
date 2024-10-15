@@ -14,10 +14,24 @@ export interface Button {
     default_action?: { type: string; url: string };
     buttons: Button[];
   }
+
+
+  export interface msgNodeMsgType {
+    msgType: "text" | "audio" | "video" | "sticker" | "image" | "post";
+  }
   
-  export interface ButtonTemplateData {
-    title: string;
-    buttons: Button[];
+  // Use the new interface inside messageNodeData
+  export interface MessageNodeData extends msgNodeMsgType {
+    url?: string;
+    msg?: string;
+  }
+
+  export interface checkMsgTypes {
+    msgType: "contains" | "exact" | "isEmail" | "isNumber"  | "isPhoneNumber" | "isLink"; 
+  }
+  export interface checkMsgData extends checkMsgTypes {
+    keywords?:string,
+    exactMatch?:string
   }
 
   export function getButtonCntLimit(type:string){
