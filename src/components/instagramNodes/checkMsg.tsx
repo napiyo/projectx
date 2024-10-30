@@ -15,18 +15,20 @@ import { checkMsgData } from "./Interface/NodesInterface";
 import { Handle, Position, useReactFlow } from "@xyflow/react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import ActionButton from "../ui/genericTemplateUtils/actionButtons";
 
 
 export function CheckMsg({id,data}:{id:string,data:checkMsgData}){
     const [keywords, setkeywords] = useState<string[]>([])
     const { updateNodeData } = useReactFlow();
+// console.log(data.msgType);
 
     return (<div className="w-[275px]">
  <DragHereComp  nodeId={id}/>
  <div className="bg-blue-200 rounded-lg p-2 flex flex-col gap-2">
     <h3 className="text-sm font-semibold">Check if last Message :</h3>
     <Select
-          defaultValue={data.msgType}
+          // defaultValue={data.msgType}
           value={data.msgType}
           onValueChange={(val) => updateNodeData(id, { msgType: val })}
         >
@@ -69,8 +71,11 @@ data.msgType == "contains" &&
 
 <p className="text-xs">Enter "Space" or "Enter" key to add keyword</p>
 }
-<Handle type="target" position={Position.Left} className={commonStyle.targetHandle}/>
-<Handle type="source" position={Position.Right} className={commonStyle.sourceHandle}/>
+<button className="p-2 bg-black w-full rounded-md text-white font-semibold relative" >Else
+  <Handle type="source" id={`src_else${id}`}  position={Position.Right} className={commonStyle.sourceHandle} />
+</button>
+<Handle type="target" id={`trgt_${id}`} position={Position.Left} className={commonStyle.targetHandle}/>
+<Handle type="source" id={`src_if${id}`} position={Position.Right} className={commonStyle.sourceHandle}/>
  </div>
     </div>)
 }

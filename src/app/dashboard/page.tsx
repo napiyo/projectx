@@ -1,7 +1,7 @@
 export default function Dashboard()
 {
     return (<>
-    <div className="h-[500000px] w-screen bg-black text-white">
+    <div className="h-screen w-full bg-black text-white">
         Dashboard
         </div>
         </>)

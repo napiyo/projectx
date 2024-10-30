@@ -59,6 +59,18 @@ const CustomEdge = ({
            <IconXboxX onClick={()=>deleteElements({ edges: [{ id: id }] })} 
           className='text-white hover:text-red-500 z-[100] cursor-pointer'/>
         </div>
+        <div
+         style={{
+          position: 'absolute',
+          left:targetX,
+          top:targetY,
+          transform:"translate(-50%,-50%)",
+          pointerEvents: 'all'
+
+        }}
+        className='bg-black rounded-full'>
+          <h1 className='text-white'>40</h1>
+        </div>
       </EdgeLabelRenderer>
     </>
   );

@@ -72,6 +72,7 @@ function FloatingDockBtn({
           break;
         case "checkMsgNode":
           data = {msgType:"contains"}
+          break;
         default:
           data = {title:"",subtitle:"",buttons:[]}
           break;
@@ -79,7 +80,7 @@ function FloatingDockBtn({
       const newNode = {
                 id: (getNodes()?.length + 1).toString(),
                 type: type,
-                position: { x: Math.random() * 250, y: Math.random() * 250 },
+                position: { x: Math.random() * 1000, y: Math.random() * 550 },
                 data: data,
                 dragHandle: '.node-dragable-from-this-div',
             };

@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import '@xyflow/react/dist/style.css';
 import GenericTemplateNode from '@/components/instagramNodes/genericTemplate';
 
@@ -23,9 +23,6 @@ import {
   Controls,
   MiniMap,
 } from '@xyflow/react';
-import { GenericTemplateData } from '@/components/instagramNodes/Interface/NodesInterface';
-import { FloatingDock } from '@/components/ui/floating-dock';
-import { HomeIcon } from 'lucide-react';
 import FloatingDockFlowBuilder from '@/components/floatingDock';
 import { QuickReply } from '@/components/instagramNodes/quickReply';
 import CustomEdge from '@/components/instagramNodes/edges/customEdge';
@@ -33,7 +30,6 @@ import { StartNode } from '@/components/instagramNodes/startNode';
 import { MessageNode } from '@/components/instagramNodes/messageNode';
 import { CheckMsg } from '@/components/instagramNodes/checkMsg';
 import { QuickActionOnFlowBuilder } from '@/components/ui/quickActionOnFlowBuilder';
-import { SelectViewport } from '@radix-ui/react-select';
 
 
 const nodeTypes = {
@@ -57,7 +53,12 @@ const flowKey:string = 'flow-unpublished';
 export default function FlowBuilder() {
   const [nodes, setNodes] = useState<Node[]>(initialNodes);
   const [edges, setEdges] = useState<Edge[]>(initialEdges);
-  
+  const [tooltipdata, settooltipdata] = useState({visible:false,message:"", position:{x:0,y:0}})  
+  const hideTooltip = ()=>{
+    setTimeout(() => {
+      settooltipdata({visible:false,message:"",position:{x:0,y:0}})
+    }, 100);
+  }
   // Function to add a new node
 
   const onNodesChange: OnNodesChange = useCallback(
@@ -69,8 +70,34 @@ export default function FlowBuilder() {
     [setEdges],
   );
   const onConnect: OnConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge({ ...connection }, eds)),
-    [setEdges],
+    (connection) => {
+      // Get all existing edges for the source node
+    const existingEdgesFromSource = edges.filter(edge => edge.source === connection.source);
+    const sourceNode = nodes.find(node => node.id === connection.source);
+    const targetNode = nodes.find(node => node.id === connection.target);
+    // condition checks
+    const maxConnections = 3; 
+    const allowedTargetTypes = ['messageNode', 'quickReply']; // specify allowed types
+  
+    
+    // Check if the source node has reached its max connections
+    if (existingEdgesFromSource.length >= maxConnections) {
+      // Display an error message (using tooltip, or similar popover component)
+      settooltipdata((d)=>({...d,visible:true,message:"Can connect upto max 3 nodes",position:{x:targetNode?.position.x || 0 ,y:targetNode?.position.y || 0}}))
+      return <h2>"This node has reached the maximum connections allowed." </h2>;
+    }
+    hideTooltip()
+
+    // Check if target node is of an allowed type
+    // const targetNode = nodes.find(node => node.id === connection.target);
+    // if (targetNode && !allowedTargetTypes.includes(targetNode.type || "")) {
+    //   return <h2>"This typeddafe maximum connections allowed." </h2>;
+    // }
+      setEdges((eds) => addEdge({ ...connection }, eds))
+      
+    },
+      [setEdges,edges,nodes]
+    
   );
 
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
@@ -99,7 +126,7 @@ export default function FlowBuilder() {
   }, [setNodes]);
 
   return (
-    <div className="h-screen">
+    <div className="h-screen w-full">
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -114,7 +141,7 @@ export default function FlowBuilder() {
       >
         <QuickActionOnFlowBuilder onSave={onSave} onRestore={onRestore}/>
         <FloatingDockFlowBuilder />
-        <Background />
+        <Background/>
         <Controls />
         <MiniMap />
         
