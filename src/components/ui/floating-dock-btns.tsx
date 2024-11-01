@@ -71,7 +71,7 @@ function FloatingDockBtn({
           data = {msgType:"text"}
           break;
         case "checkMsgNode":
-          data = {msgType:"contains"}
+          data = {checkConditions:[],keywords:[],exactMatch:""}
           break;
         default:
           data = {title:"",subtitle:"",buttons:[]}

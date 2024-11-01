@@ -1,7 +1,7 @@
 // components/CustomEdge.tsx
 
 import React from 'react';
-import { getBezierPath, EdgeProps, EdgeLabelRenderer, useReactFlow, getEdgeCenter } from '@xyflow/react';
+import { getBezierPath, EdgeProps, EdgeLabelRenderer, useReactFlow, getEdgeCenter, useEdges } from '@xyflow/react';
 import { IconCross, IconTrash, IconXboxX, IconXboxXFilled } from '@tabler/icons-react';
 
 const CustomEdge = ({
@@ -35,6 +35,21 @@ const CustomEdge = ({
     targetX,
     targetY,
   });
+
+  const reactFlowInstance = useReactFlow();
+  const edges = useEdges();
+
+  // Find the edge by its ID
+  const edge = edges.find((e) => e.id === id);
+
+  // Get the target node ID from the edge data
+  const targetNodeId = edge?.target;
+
+  const targetNode = targetNodeId && reactFlowInstance.getNode(targetNodeId)?.type;
+  // Find the target node by its ID
+
+  // Check if the target node is a checkMsgNode
+  const isTargetCheckMsgNode = targetNode && targetNode === 'checkMsgNode';
   return (
     <>
       <path
@@ -43,7 +58,9 @@ const CustomEdge = ({
         className="react-flow__edge-path"
         d={edgePath}
       />
-      <EdgeLabelRenderer>
+      {
+        isTargetCheckMsgNode?"":
+        <EdgeLabelRenderer>
         <div
           style={{
             position: 'absolute',
@@ -51,7 +68,7 @@ const CustomEdge = ({
             top:edgeCenterY,
             transform:"translate(-50%,-50%)",
             pointerEvents: 'all',
-
+            
           }}
           className='bg-black rounded-full'
         
@@ -59,19 +76,9 @@ const CustomEdge = ({
            <IconXboxX onClick={()=>deleteElements({ edges: [{ id: id }] })} 
           className='text-white hover:text-red-500 z-[100] cursor-pointer'/>
         </div>
-        <div
-         style={{
-          position: 'absolute',
-          left:targetX,
-          top:targetY,
-          transform:"translate(-50%,-50%)",
-          pointerEvents: 'all'
-
-        }}
-        className='bg-black rounded-full'>
-          <h1 className='text-white'>40</h1>
-        </div>
+       
       </EdgeLabelRenderer>
+        }
     </>
   );
 };

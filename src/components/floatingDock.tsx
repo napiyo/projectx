@@ -9,7 +9,7 @@ const menuItems = [
     {title:"Button Template", icon:(<IconLayoutList />), type:"buttonTemplate"},
     {title:"Quick Reply", icon:(<IconMailFast />), type:"quickReply"},
     {title:"Message", icon:(<IconMessage />), type:"messageNode"},
-    {title:"Check Last Message", icon:(<IconMessageQuestion />), type:"checkMsgNode"},
+    // {title:"Check Last Message", icon:(<IconMessageQuestion />), type:"checkMsgNode"},
     // {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
     // {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
     // {title:"Report", icon:<IconActivity/> , type:"report"},

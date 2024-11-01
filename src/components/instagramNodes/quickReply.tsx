@@ -13,11 +13,11 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
 {
     const { updateNodeData } = useReactFlow();
 
-    const [showPreview, setshowPreview] = useState(false) // mistake, this is actually hiderPreview
+    const [hiddenPreview, sethiddenPreview] = useState(true) 
 
     return (
     <div className={style.MainContainer}>
-        <div className={`${style.previewContent} node-dragable-from-this-div transition-all ${showPreview?"translate-y-full opacity-0 -z-50":""}`}>
+        <div className={`${style.previewContent} node-dragable-from-this-div transition-all ${hiddenPreview?"translate-y-full opacity-0 -z-50 absolute":""}`}>
             <div className="text-end py-2 px-4 bg-blue-500 w-fit max-w-52 text-ellipsis break-all rounded-2xl overflow-hidden text-xs transition-all"> {data.subtitle || "Your Message"}</div>
             <div className="flex w-full overflow-hidden gap-2 text-xs">
                 {
@@ -39,10 +39,10 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
                     <IconSticker2 />
             </div>
         </div>
-        <div className={`w-px bg-blue-600  flex justify-center relative transition-all ${showPreview?"items-start h-10":"items-center h-20"}`}>
-            <div className={`absolute border-blue-600 border-r-2 border-t-2 w-3 h-3 top-0 -rotate-45 transition-all ${showPreview?"opacity-0":""}`}></div>
+        <div className={`w-px bg-blue-600  flex justify-center relative transition-all ${hiddenPreview?"items-start h-10":"items-center h-20"}`}>
+            <div className={`absolute border-blue-600 border-r-2 border-t-2 w-3 h-3 top-0 -rotate-45 transition-all ${hiddenPreview?"opacity-0":""}`}></div>
             <div className="text-white bg-inherit px-4 rounded-sm text-sm cursor-pointer text-nowrap transition-all ease-in-out" 
-            onClick={()=> setshowPreview((p)=>!p)}> {showPreview?"Show":"Hide"} Preview</div>
+            onClick={()=> sethiddenPreview((p)=>!p)}> {hiddenPreview?"Show":"Hide"} Preview</div>
         </div>
         
 {/* <div className={cn("node-dragable-from-this-div","bg-black text-white font-semibold text-sm w-1/2 text-center rounded-tl-xl rounded-tr-xl border-2 border-b-0 opacity-100 border-white py-1 items-center m-auto transition-opacity duration-500")}>

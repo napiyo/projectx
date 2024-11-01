@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { IconTrash } from "@tabler/icons-react";
 import { useReactFlow } from "@xyflow/react";
 
-export function DragHereComp({ hidden,nodeId }: { hidden?: boolean,nodeId:string }) {
+export function DragHereComp({ hidden,nodeId,notDeleteAble }: { hidden?: boolean,nodeId:string,notDeleteAble?:boolean }) {
   const { deleteElements } = useReactFlow();
 
 
@@ -17,10 +17,10 @@ export function DragHereComp({ hidden,nodeId }: { hidden?: boolean,nodeId:string
       >
         Drag from here
       </div>
-      <div className="bg-white cursor-pointer absolute right-3 bottom-0 p-1 rounded-t-sm"
+     {!notDeleteAble && <div className="bg-white cursor-pointer absolute right-3 bottom-0 p-1 rounded-t-sm"
       onClick={()=>{
         deleteElements({ nodes: [{ id: nodeId }] });
-      }}><IconTrash  className="text-red-600  "/></div>
+      }}><IconTrash  className="text-red-600  "/></div>}
     </div>
   );
 }

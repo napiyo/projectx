@@ -29,9 +29,10 @@ export interface Button {
   export interface checkMsgTypes {
     msgType: "contains" | "exact" | "isEmail" | "isNumber"  | "isPhoneNumber" | "isLink"; 
   }
-  export interface checkMsgData extends checkMsgTypes {
-    keywords?:string,
-    exactMatch?:string
+  export interface checkMsgData {
+    keywords:string[],
+    exactMatch:string,
+    checkConditions:checkMsgTypes['msgType'][]
   }
 
   export function getButtonCntLimit(type:string){
