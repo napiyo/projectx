@@ -22,7 +22,7 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
             <div className="flex w-full overflow-hidden gap-2 text-xs">
                 {
                     data.buttons.length != 0? data.buttons.map((btn,index)=>(
-                        <div className={style.quickPreviewBtn}>{btn.title}</div>
+                        <div className={style.quickPreviewBtn} key={btn.id}>{btn.title}</div>
                     )):<>
                <div className={style.quickPreviewBtn}>Quick reply 1</div>
                <div className={style.quickPreviewBtn}>Quick reply 2</div>
@@ -60,7 +60,7 @@ export function QuickReply({id,data,type}:{id:string,data: GenericTemplateData,t
         }
         />
         <ActionButtonList data={data} nodeId={id} key={'actionList_'+id} type={type}/>
-        <Handle key={'handleQuickReplyTrgt'+id} position={Position.Left} type="target" className={commonStyle.targetHandle}/>
+        <Handle key={`nt_qr_${id}`} id={`nt_qr_${id}`} position={Position.Left} type="target" className={commonStyle.targetHandle}/>
       </div>
     </div>
     );

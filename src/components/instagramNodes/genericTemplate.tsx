@@ -132,10 +132,13 @@ const GenericTemplateGeneralNode = ({
         </div>
         {/* END - Title and sub-heading box  */}
         {/* Buttons Container with Add button buttons */}
-        <ActionButtonList data={data} key={id} nodeId={id} type={type}/>
+        <ActionButtonList data={data} key={`abl_gt_${id}`} nodeId={id} type={type}/>
       </div>
 
-      <Handle position={Position.Left} type="target" className={commonStyle.targetHandle} />
+      <Handle position={Position.Left} type="target" className={commonStyle.targetHandle} 
+      key={`nt_gt_${id}`}
+      id={`nt_gt_${id}`}
+      />
     </div>
   );
 };

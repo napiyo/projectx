@@ -78,7 +78,7 @@ function FloatingDockBtn({
           break;
       }   
       const newNode = {
-                id: (getNodes()?.length + 1).toString(),
+                id: (getNodes().length).toString(),
                 type: type,
                 position: { x: Math.random() * 1000, y: Math.random() * 550 },
                 data: data,

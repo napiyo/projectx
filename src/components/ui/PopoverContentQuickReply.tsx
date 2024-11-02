@@ -9,9 +9,9 @@ function PopoverContentQuickReply({addButton}:{addButton:(button:Button)=>void})
     const initialBtnData:Button = {id:1,title:"",type:'postback'}
     const [buttonData,setButtonData] = useState<Button>(initialBtnData)
     return (<PopoverContent>
-        <div className={style.popover}>
-
 <AnimatePresence mode="sync">
+        <div className={style.popover} key={`qr_popover`}>
+
         <h1 className="text-start font-semibold py-1 text-xl">Add Quick Reply</h1>
     
         {/* <div className={`${style.radioBtns} ${buttonData.type=="web_url" && "after:translate-x-full"}`} >
@@ -70,8 +70,8 @@ function PopoverContentQuickReply({addButton}:{addButton:(button:Button)=>void})
         className="bg-black text-white w-full py-1 text-lg font-semibold rounded-md z-10"
         >Add Button</button>
 
-</AnimatePresence>
         </div>
+</AnimatePresence>
     </PopoverContent>)
 }
 

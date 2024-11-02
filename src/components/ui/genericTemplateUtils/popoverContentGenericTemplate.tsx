@@ -9,12 +9,12 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
     const initialBtnData:Button = {id:1,title:"",type:'postback'}
     const [buttonData,setButtonData] = useState<Button>(initialBtnData)
     return (<PopoverContent>
-        <div className={style.popover}>
+<AnimatePresence mode="sync" key={`popoverAnimate`}>
+        <div className={style.popover} key={`popoverContent`}>
 
-<AnimatePresence mode="sync">
-        <h1 className="text-start font-semibold py-1 text-xl">Add new button</h1>
+        <h1 className="text-start font-semibold py-1 text-xl" key={`addnewbtn`}>Add new button</h1>
     
-        <div className={`${style.radioBtns} ${buttonData.type=="web_url" && "after:translate-x-full"}`} >
+        <div key={`btnTypes`} className={`${style.radioBtns} ${buttonData.type=="web_url" && "after:translate-x-full"}`} >
             <div className={`${buttonData.type=="postback"?style.active:""} flex-1`}
             onClick={()=>{setButtonData((data)=>{return {...data,type:"postback"}})}}
             >Normal</div>
@@ -44,11 +44,12 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
         placeholder="Title"
         maxLength={20}
         id="title_field"
+
         />
         </div>
 
 
-<motion.div className={`${style.urlDiv} flex flex-row justify-center items-center gap-5 mb-3 z-0 ${buttonData.type ==="postback"?"-translate-x-50 overflow-hidden h-0 ":"h-12 translate-x-0 overflow-visible "}`}
+<motion.div key={`url_div`} className={`${style.urlDiv} flex flex-row justify-center items-center gap-5 mb-3 z-0 ${buttonData.type ==="postback"?"-translate-x-50 overflow-hidden h-0 ":"h-12 translate-x-0 overflow-visible "}`}
         >
 
       <label htmlFor="title_field">URL</label>
@@ -70,8 +71,8 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
         className="bg-black text-white w-full py-1 text-lg font-semibold rounded-md z-10"
         >Add Button</button>
 
-</AnimatePresence>
         </div>
+</AnimatePresence>
     </PopoverContent>)
 }
 

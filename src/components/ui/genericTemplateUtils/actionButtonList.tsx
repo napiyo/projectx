@@ -1,9 +1,10 @@
 import style from "@/components/instagramNodes/styles/genericTemplate.module.css";
+import commonStyle from "@/components/instagramNodes/styles/common.module.css";
 import { AnimatePresence, Reorder } from "framer-motion";
 import ActionButton from "./actionButtons";
 import { Popover, PopoverTrigger } from "../popover";
 import PopoverContentGenericTemplate from "./popoverContentGenericTemplate";
-import { useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
+import { Handle, Position, useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
 import { useCallback, useState } from "react";
 import {
   Button,
@@ -15,11 +16,11 @@ import PopoverContentQuickReply from "../PopoverContentQuickReply";
 export function ActionButtonList({
   nodeId,
   data,
-  type
+  type,
 }: {
-  nodeId: string,
-  data: GenericTemplateData,
-  type:string
+  nodeId: string;
+  data: GenericTemplateData;
+  type: string;
 }) {
   const updateNodeInternals = useUpdateNodeInternals();
   const [idbutton, setIdbutton] = useState<number>(1);
@@ -62,7 +63,7 @@ export function ActionButtonList({
         onReorder={(newButtons) => updateButtons(newButtons)} // This will handle reordering
         className={style.buttonsContainer}
       >
-        <AnimatePresence mode="sync">
+        <AnimatePresence mode="sync" key="actionsbtnsanimation">
           {data.buttons.map((button, index) => (
             <ActionButton
               key={button.id}
@@ -73,19 +74,28 @@ export function ActionButtonList({
           ))}
         </AnimatePresence>
       </Reorder.Group>
+      <button className="p-2 bg-black w-full rounded-md text-white font-semibold relative">
+          Else
+          <Handle
+            type="source"
+            id={`b_else${nodeId}`}
+            key={`b_else${nodeId}`}
+            position={Position.Right}
+            className={commonStyle.sourceHandleBtn}
+          />
+        </button>
 
       <Popover open={popOverOpened} onOpenChange={setpopOverOpened}>
-        {
-            (data.buttons.length !== getButtonCntLimit(type))? 
-            <PopoverTrigger>Add Button</PopoverTrigger>
-            : <p className="text-sm text-center"> Can't add more buttons</p>
-            
-        
-        }
-        {
-            type == "quickReply"?<PopoverContentQuickReply addButton={addButton}/>:
-        <PopoverContentGenericTemplate addButton={addButton} />
-        }
+        {data.buttons.length !== getButtonCntLimit(type) ? (
+          <PopoverTrigger>Add Button</PopoverTrigger>
+        ) : (
+          <p className="text-sm text-center"> Can't add more buttons</p>
+        )}
+        {type == "quickReply" ? (
+          <PopoverContentQuickReply addButton={addButton} />
+        ) : (
+          <PopoverContentGenericTemplate addButton={addButton} />
+        )}
       </Popover>
     </div>
   );

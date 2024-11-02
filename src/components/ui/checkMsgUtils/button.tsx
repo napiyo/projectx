@@ -28,8 +28,8 @@ export function CheckMsgButton({id,val,removeBtn,classname}:{id:string,val:check
                 {/* Add Handle inside the button wrapper */}
               <Handle
             type="source"
-            id={`id_src${id}+${val}`}
-            key={`key_src${id}+${val}`}
+            id={`b_cm_${id}-${val}`}
+            key={`b_cm_${id}-${val}`}
             position={Position.Right}
             className={classname}
             />

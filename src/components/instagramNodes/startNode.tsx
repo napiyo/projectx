@@ -5,8 +5,9 @@ import commonStyle from "./styles/common.module.css"
 export function StartNode(){
     return (<div className="bg-white w-28 p-2 rounded-lg text-center">
         START
-        <Handle type="source" position={Position.Right} key="startNodeHandle"
+        <Handle type="source" position={Position.Right} key="n_startNodeHandle"
         className={commonStyle.sourceHandle}
+        id="n_startNodeHandle"
         />
     </div>)
 }

@@ -41,7 +41,7 @@ return <div className="dark h-screen sticky left-0 top-0 shadow-lg shadow-white"
             {/* {open ? <Logo /> : <LogoIcon />} */}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
+                <SidebarLink key={`sidebar_${idx}`} link={link} />
               ))}
             </div>
           </div>

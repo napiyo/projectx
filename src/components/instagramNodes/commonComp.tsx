@@ -1,10 +1,10 @@
 import { cn } from "@/lib/utils";
 import { IconTrash } from "@tabler/icons-react";
-import { useReactFlow } from "@xyflow/react";
+import { getConnectedEdges, useReactFlow } from "@xyflow/react";
 
 export function DragHereComp({ hidden,nodeId,notDeleteAble }: { hidden?: boolean,nodeId:string,notDeleteAble?:boolean }) {
   const { deleteElements } = useReactFlow();
-
+ 
 
   return (
     <div className="relative flex w-full">

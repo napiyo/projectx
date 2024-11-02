@@ -64,8 +64,9 @@ export function MessageNode({
             :<Input placeholder= {data.msgType == "post"?"ex: instagram.com/p/postid":"ex: www.google.drive.com/your-imag.png"}
             className="border"/>
         }
-<Handle key={"msgNodeTrg"+id} type="target" position={Position.Left} className={commonStyle.targetHandle}/>      
-<Handle key={"msgNodeSrc"+id} type="source" position={Position.Right} className={commonStyle.sourceHandle}/>      
+<Handle key={`nt_msg_${id}`} id={`nt_msg_${id}`} type="target" position={Position.Left} className={commonStyle.targetHandle}/>      
+<Handle key={"msgNodeSrc"+id} type="source" position={Position.Right} className={commonStyle.sourceHandle}
+isConnectable={false}/>      
       </div>
       
     </div>

@@ -11,7 +11,7 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
   const updateNodeInternals = useUpdateNodeInternals();
   return (
     <Reorder.Item
-              key={button.id} // Use index or unique identifier as key
+              key={`ab_${button.id}-${nodeid}`} // Use index or unique identifier as key
               value={button} // Required for Reorder.Item
               dragListener={false}
               dragControls={controls}
@@ -58,7 +58,8 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                   type="source"
                   position={Position.Right} // This will add it to the right of the button
                   className={commonStyle.sourceHandleBtn}
-                  id={`handle-${button.id}`} // Add custom class for styling
+                  id={`b_gt_${button.id}-${nodeid}`}
+                  key={`b_gt_${button.id}-${nodeid}`} 
                   />
                 }
               </motion.div>

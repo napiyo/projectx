@@ -67,6 +67,7 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
   }
 
   return (
+      <AnimatePresence mode="sync" key="checkmsganimatelist">
     <div className="w-[275px]">
       <DragHereComp nodeId={id} notDeleteAble/>
       <div className="bg-blue-200 rounded-lg p-2 flex flex-col gap-2">
@@ -130,7 +131,6 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
          disabled = {data.checkConditions.includes(currMsgType)}
          >Add Above Condition</button>
         </div>
-           <AnimatePresence mode="sync" key="checkmsganimatelist">
 
         {
          
@@ -138,7 +138,7 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
             let ele = (
               <CheckMsgButton
                 key={`${val}+checkMsgBTn`}
-                classname={commonStyle.sourceHandle}
+                classname={commonStyle.sourceHandleBtn}
                 id={id}
                 removeBtn={removeBtn}
                 val={val}
@@ -182,24 +182,27 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
             return ele;
           })
         }
-        </AnimatePresence>
         <button className="p-2 bg-black w-full rounded-md text-white font-semibold relative">
           Else
           <Handle
             type="source"
-            id={`src_else${id}`}
+            id={`b_else${id}`}
+            key={`b_else${id}`}
             position={Position.Right}
-            className={commonStyle.sourceHandle}
+            className={commonStyle.sourceHandleBtn}
           />
         </button>
         <Handle
           type="target"
-          id={`trgt_${id}`}
+          id={`nt_cm_${id}`}
+          key={`nt_cm_${id}`}
           position={Position.Left}
           className={commonStyle.targetHandle}
-        />
+          isConnectable={false}
+          />
        
       </div>
     </div>
+          </AnimatePresence>
   );
 }
