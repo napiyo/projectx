@@ -3,11 +3,9 @@ import {
     AnimatePresence,
     MotionValue,
     motion,
-    useMotionValue,
     useSpring,
     useTransform,
   } from "framer-motion";
-import Link from "next/link";
 import { useRef, useState } from "react";
 
 function FloatingDockBtn({
@@ -78,7 +76,7 @@ function FloatingDockBtn({
           break;
       }   
       const newNode = {
-                id: (getNodes().length).toString(),
+                id: `node_${getNodes().length+1}_${Date.now()}`,
                 type: type,
                 position: { x: Math.random() * 1000, y: Math.random() * 550 },
                 data: data,

@@ -41,6 +41,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { UserCheckNode } from "@/components/instagramNodes/userCheckNode";
 
 const nodeTypes = {
   genericTemplate: GenericTemplateNode,
@@ -49,6 +50,7 @@ const nodeTypes = {
   startNode: StartNode,
   messageNode: MessageNode,
   checkMsgNode: CheckMsg,
+  userCheckNode:UserCheckNode
 };
 
 const edgeTypes = {
@@ -100,7 +102,7 @@ export default function FlowBuilder() {
       return;
      }
       
-     const sourceNode = nodes.find((node) => node.id === connection.source);
+    //  const sourceNode = nodes.find((node) => node.id === connection.source);
       // Get all existing edges for the source node
       const existingEdgesFromSource = edges.filter(
         (edge) => edge.sourceHandle === connection.sourceHandle
@@ -115,7 +117,7 @@ export default function FlowBuilder() {
         return;
       }
       let checkMsgNode : Node   = {
-        id: (nodes?.length).toString(),
+        id: `checkMsg_${nodes.length+1}_${Date.now()}`,
         type: "checkMsgNode",
         position: { x: Math.random() * 1000, y: Math.random() * 550 },
         data: { checkConditions: [], keywords: [], exactMatch: "" },
@@ -124,14 +126,23 @@ export default function FlowBuilder() {
       let checkMsgNodeExist = false;
       existingEdgesFromSource.push({...connection,id:'dummy'})
       existingEdgesFromSource.forEach((_edge)=>{
-        let _targetNode = nodes[(Number(_edge.target))];
+        // let _targetNode = nodes[(Number(_edge.target))];
+        let _targetNode = nodes.find((val)=>val.id == _edge.target);
+        if(!_targetNode) {
+          console.error("Could not find target node with id",_edge.targetHandle);
+          return
+        }
         const edgesFromTarget = edges.filter(
           (edge) => edge.source === _targetNode.id
         );
         for(let i=0;i<edgesFromTarget.length;i++)
         {
           let ed = edgesFromTarget[i];
-          let _trgNd = nodes[(Number(ed.target))];
+          let _trgNd = nodes.find((val)=>val.id == ed.target);
+          if(!_trgNd) {
+            console.error("Could not find target node with id",_edge.targetHandle);
+            return
+          }
           if(_trgNd.type=='checkMsgNode'){
             checkMsgNode = _trgNd;
             checkMsgNodeExist = true;
@@ -152,6 +163,7 @@ export default function FlowBuilder() {
                     source: connection.target,
                     target: checkMsgNode.id,
                     type: "customEdge",
+                    data:{fromElse:true}
                   }
           break;
         case 'quickReply':
@@ -163,6 +175,7 @@ export default function FlowBuilder() {
             target: checkMsgNode.id,
             sourceHandle:`b_else${targetNode.id}`,
             type: "customEdge",
+            data:{fromElse:true}
           }
           break;
       

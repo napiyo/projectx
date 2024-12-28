@@ -53,7 +53,7 @@ function PopoverContentGenericTemplate({addButton}:{addButton:(button:Button)=>v
         >
 
       <label htmlFor="title_field">URL</label>
-      <Input type="text" value={buttonData.url} onChange={(e)=> {
+      <Input type="text" value={buttonData.url || ""} onChange={(e)=> {
           setButtonData((btn)=>({...btn,url:e.target.value.trimStart()}))
         }}
         className="text-sm w-full text-ellipsis py-3 text-gray-500 font-semibold bg-transparent"

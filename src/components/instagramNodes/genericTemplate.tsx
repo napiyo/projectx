@@ -46,7 +46,16 @@ const GenericTemplateGeneralNode = ({
   // hide drag from here in case of 3d pin is visible
   const [pinvisible, setpinvisible] = useState(false)
   const { updateNodeData } = useReactFlow();
-
+  const validURL = (str?: string) : boolean => {
+    if(!str) return false
+    var pattern = new RegExp('^(https?:\\/\\/)' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    return !!pattern.test(str);
+  }
   return (
     <div
       className={`${style.container} ${
@@ -72,8 +81,8 @@ const GenericTemplateGeneralNode = ({
           setpinvisible={setpinvisible}
           children=
             <Image
-              src="/MainAfter.png"
-              // src={`url(${data.image_url || "/MainAfter.png"})` }
+              // src="/MainAfter.png"
+              src={( data.image_url && validURL(data.image_url))?data.image_url:"/MainAfter.png" }
               // src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1024px-Image_created_with_a_mobile_phone.png"
               alt="Check Image URL, hover me"
               // width={275}
@@ -81,11 +90,16 @@ const GenericTemplateGeneralNode = ({
               // objectFit="cover"
               // layout="fill"
               // sizes=""
+              
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
               quality={10}
               className="rounded-t-2xl object-cover"
               style={{zIndex:"555"}}
               fill={true}
+              onError={(e) => {
+                e.currentTarget.src = "/MainAfter.png"; // Path to your error image
+                e.currentTarget.alt = "Error loading image";
+              }}
             />
         ></PinContainer>
       )}

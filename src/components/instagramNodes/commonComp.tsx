@@ -3,8 +3,37 @@ import { IconTrash } from "@tabler/icons-react";
 import { getConnectedEdges, useReactFlow } from "@xyflow/react";
 
 export function DragHereComp({ hidden,nodeId,notDeleteAble }: { hidden?: boolean,nodeId:string,notDeleteAble?:boolean }) {
-  const { deleteElements } = useReactFlow();
- 
+  const { deleteElements,getEdges} = useReactFlow();
+ const deleteItem = ()=>{
+  // check if checkMsg node is connected, and has no other connected node, then delete that also
+  let deleteNodes = [{ id: nodeId }]; 
+  
+  const edgs = getEdges();
+    edgs.forEach((val)=>{
+          if(val.source == nodeId)
+          {
+            if(val.data && val.data.fromElse)
+            {
+              // target node is checkMsg
+              // check checkMsg only one edge
+              let edgestoSourceOfCheckMsgCount  = 0;
+              edgs.forEach((v)=>{
+                if(v.target == val.target){
+                  edgestoSourceOfCheckMsgCount++;
+                }
+              })
+              if(edgestoSourceOfCheckMsgCount ==1)
+              {
+                // delete this check msg node also, as no other node is connected to it from source
+                deleteNodes.push({id:val.target})
+              }
+            }
+          }
+    })
+   
+
+  deleteElements({ nodes: deleteNodes })
+ }
 
   return (
     <div className="relative flex w-full">
@@ -18,9 +47,7 @@ export function DragHereComp({ hidden,nodeId,notDeleteAble }: { hidden?: boolean
         Drag from here
       </div>
      {!notDeleteAble && <div className="bg-white cursor-pointer absolute right-3 bottom-0 p-1 rounded-t-sm"
-      onClick={()=>{
-        deleteElements({ nodes: [{ id: nodeId }] });
-      }}><IconTrash  className="text-red-600  "/></div>}
+      onClick={deleteItem}><IconTrash  className="text-red-600  "/></div>}
     </div>
   );
 }

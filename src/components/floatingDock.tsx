@@ -1,4 +1,4 @@
-import { Icon12Hours, IconAccessible, IconActivity, IconHome, IconLayoutList, IconMailFast, IconMessage, IconMessageQuestion, IconPhotoScan } from "@tabler/icons-react";
+import { Icon12Hours, IconAccessible, IconActivity, IconHome, IconLayoutList, IconMailFast, IconMessage, IconMessageQuestion, IconPhotoScan, IconUserCheck } from "@tabler/icons-react";
 import { FloatingDock } from "./ui/floating-dock";
 import style from './styles/floatingDock.module.css'
 import { useReactFlow } from "@xyflow/react";
@@ -9,6 +9,7 @@ const menuItems = [
     {title:"Button Template", icon:(<IconLayoutList />), type:"buttonTemplate"},
     {title:"Quick Reply", icon:(<IconMailFast />), type:"quickReply"},
     {title:"Message", icon:(<IconMessage />), type:"messageNode"},
+    {title:"Check user", icon:(<IconUserCheck />), type:"userCheckNode"},
     // {title:"Check Last Message", icon:(<IconMessageQuestion />), type:"checkMsgNode"},
     // {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},
     // {title:"Home", icon:(<IconHome />), type:"genericTemplateNode"},

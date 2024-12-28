@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { checkMsgData, checkMsgTypes } from "./Interface/NodesInterface";
-import { Handle, Position, useReactFlow } from "@xyflow/react";
+import { Handle, Position, useReactFlow, useUpdateNodeInternals } from "@xyflow/react";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import ActionButton from "../ui/genericTemplateUtils/actionButtons";
@@ -29,6 +29,7 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
   const [exactPhrase, setexactPhrase] = useState<string>('');
   const { updateNodeData } = useReactFlow();
   const [currMsgType, setcurrMsgType] = useState<checkMsgTypes['msgType']>("contains")
+  const updateNodeInternals = useUpdateNodeInternals();
   const addBtn = ()=>{
     let btns = data.checkConditions;
   if(btns.includes(currMsgType)) return;
@@ -46,6 +47,9 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
     updateNodeData(id,{checkConditions:btns});
   }
             // setcurrMsgType()
+            setTimeout(() => {
+              updateNodeInternals(id)
+            }, 500);
             setcurrMsgType('isEmail')
   }
   const removeBtn = async(val:checkMsgTypes['msgType'])=>{
@@ -67,13 +71,13 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
   }
 
   return (
-      <AnimatePresence mode="sync" key="checkmsganimatelist">
+      <AnimatePresence mode="sync" key={`checkmsganimatelist+${id}`}>
     <div className="w-[275px]">
       <DragHereComp nodeId={id} notDeleteAble/>
       <div className="bg-blue-200 rounded-lg p-2 flex flex-col gap-2">
         <div className="bg-white p-2 rounded-sm">
 
-        <h3 className="text-sm font-semibold">Check if last Message :</h3>
+        <h3 className="text-sm font-semibold">Check if last Message</h3>
         <Select
           // defaultValue={data.msgType}
           value={currMsgType}
