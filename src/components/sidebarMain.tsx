@@ -11,8 +11,18 @@ import {
   IconMessageReply
 } from "@tabler/icons-react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 
 export function SideBarMain() {
+  const pathname = usePathname();
+
+  // Define routes that should not include the sidebar
+  const noSidebarRoutes = ['/signup'];
+
+  const showSidebar = !noSidebarRoutes.includes(pathname);
+  if(!showSidebar){
+    return <></>
+  }
   const [open, setOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
 

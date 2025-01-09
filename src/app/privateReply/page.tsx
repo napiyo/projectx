@@ -1,22 +1,85 @@
 'use client'
 import { Button as MovingBorderButton } from "@/components/ui/moving-border";
 import { IconCirclePlus, IconTrashFilled, } from "@tabler/icons-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TagsInput } from "react-tag-input-component";
+import { Input } from "@/components/ui/input";
+
+interface Post{
+    mediaID:number, reply: string, keywords: string[]
+}
 
 // helper function
-function KeywordsContent(){
+function KeywordsContent(newPrivateReplyData:Post ,setnewPrivateReplyData: Dispatch<SetStateAction<Post>>){
     
-    return(<div>Keyword COntents</div>)
+
+return (
+    <div className="flex flex-col gap-4">
+        <TagsInput
+          value={newPrivateReplyData.keywords}
+          onChange={(tags) => setnewPrivateReplyData((d)=>({...d,keywords:tags}))}
+          name="keywords"
+          placeHolder="Enter Keywords"
+          // onExisting = {}
+          classNames={{
+            tag: "text-black bg-red-300 rounded-md px-2 py-1 !important", 
+            input: "text-black",
+          }}
+          separators={[" ", "Enter"]}
+          />
+        <em className="text-sm text-gray-400">Press enter or space to add a keyword</em>
+    </div>
+);
 }
-function SelectPostContent(){
+function SelectPostContent(PrivateReplyData:Post[],newPrivateReplyData:Post ,setnewPrivateReplyData: Dispatch<SetStateAction<Post>>){
     
-    return(<div>Select Post</div>)
+    // const [selectedPost, setSelectedPost] = useState<number | null>(null);
+
+    return (
+        <div className="flex flex-wrap gap-2 max-h-[20em] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4B5563 #1F2937' }}>
+            <style jsx>{`
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #4B5563;
+                border-radius: 9999px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #1F2937;
+            }
+            `}</style>
+            {PrivateReplyData.map((post, index) => (
+                <div
+                    key={post.mediaID}
+                    className={`w-24 h-24 rounded-[8px] flex items-center justify-center cursor-pointer relative ${newPrivateReplyData.mediaID === post.mediaID ? 'border-4 border-blue-500' : ''}`}
+                    onClick={() => setnewPrivateReplyData((d)=>({...d,mediaID:post.mediaID}))}
+                >
+                    <img
+                        src={`/mahadev.jpg`}
+                        alt={"Post Thumbnail"}
+                        className="w-full h-full object-cover rounded-[8px]"
+                    />
+                    {newPrivateReplyData.mediaID === post.mediaID && (
+                        <div className="absolute top-2 right-2 bg-blue-500 text-white h-6 w-6 flex justify-center rounded-sm">
+                            ✓
+                        </div>
+                    )}
+                </div>
+            ))}
+        </div>
+    );
+  
 }
-function EnterMessage(){
+function EnterMessage(newPrivateReplyData:Post ,setnewPrivateReplyData: Dispatch<SetStateAction<Post>>){
     
-    return(<div>Enter Your Message</div>)
+    return(<div>
+        <p>Enter your message that will be sent as DM</p>
+        <Input
+        value={newPrivateReplyData.reply}
+        onChange={(e)=> e.target.value.trimStart().length <200 && setnewPrivateReplyData((d)=>({...d,reply:e.target.value.trimStart()}))}
+        /></div>)
 }
 
 // helper function ends
@@ -31,13 +94,20 @@ export default function PrivateReply() {
     ];
 
     const [currentStep, setCurrentStep] = useState(-1);
-    const [PrivateReplyData, setPrivateReplyData] = useState([{mediaID:1, reply: "Select Post", keywords: ["Select", "Post"]},
+    const [newPrivateReplyData, setnewPrivateReplyData] = useState<Post>({mediaID:0, keywords: [], reply: ""});
+    const [PrivateReplyData, setPrivateReplyData] = useState<Post[]>([{mediaID:1, reply: "Select Post", keywords: ["Select", "Post"]},
         {mediaID:2, reply: "Select Post akdsjf aksdjf laskdjf laskdjf laskdjf laksdjfas ldfjjaksldjf alsdkjflaksdjflask dfjl  faskdfjasdklfj alskdfjalskdjflaskdjflsakdj", keywords: ["Select", "Post"]},
         {mediaID:3, reply: "Select Post", keywords: ["Select", "Post"]},
         {mediaID:4, reply: "Select Post", keywords: ["Select", "Post"]},
         {mediaID:5, reply: "Select Post", keywords: ["Select", "Post"]},
         {mediaID:6, reply: "Select Post", keywords: ["Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post"]},
-        {mediaID:7, reply: "Select Post", keywords: ["Select", "Post"]}
+        {mediaID:7, reply: "Select Post", keywords: ["Select", "Post"]},
+        {mediaID:8, reply: "Select Post akdsjf aksdjf laskdjf laskdjf laskdjf laksdjfas ldfjjaksldjf alsdkjflaksdjflask dfjl  faskdfjasdklfj alskdfjalskdjflaskdjflsakdj", keywords: ["Select", "Post"]},
+        {mediaID:9, reply: "Select Post", keywords: ["Select", "Post"]},
+        {mediaID:10, reply: "Select Post", keywords: ["Select", "Post"]},
+        {mediaID:53, reply: "Select Post", keywords: ["Select", "Post"]},
+        {mediaID:63, reply: "Select Post", keywords: ["Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post","Select", "Post"]},
+        {mediaID:75, reply: "Select Post", keywords: ["Select", "Post"]}
     ]);
 
     const nextStep = () => {
@@ -147,7 +217,12 @@ return (<div className="bg-black flex-1 max-h-screen h-full w-full text-white p-
                             transition={{ duration: 0.5 }}
                             className="w-full p-5 bg-gray-800 rounded-lg shadow-lg"
                         >
-                            {steps[currentStep].content()}
+                          {
+                            (currentStep == 0)?SelectPostContent(PrivateReplyData,newPrivateReplyData,setnewPrivateReplyData)
+                            :(currentStep == 1)?KeywordsContent(newPrivateReplyData,setnewPrivateReplyData)
+                            :(currentStep == 2)?EnterMessage(newPrivateReplyData,setnewPrivateReplyData):null
+                          } 
+                            
                         </motion.div>
                         <div className="flex justify-between w-full mt-4">
                             <div className="flex gap-4">

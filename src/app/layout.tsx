@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className,"flex")} >
-       <SideBarMain />
+      <SideBarMain />
          <div className="flex-1">
            {children}
           </div>
