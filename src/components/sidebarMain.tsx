@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowLeft,
@@ -12,20 +12,31 @@ import {
 } from "@tabler/icons-react";
 import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { UserContext } from "@/lib/dataContext";
+import { getMeServiceInstance } from "@/lib/api/user";
 
 export function SideBarMain() {
-  const pathname = usePathname();
+  // const pathname = usePathname();
 
   // Define routes that should not include the sidebar
-  const noSidebarRoutes = ['/signup'];
-
-  const showSidebar = !noSidebarRoutes.includes(pathname);
-  if(!showSidebar){
-    return <></>
-  }
+  // const noSidebarRoutes = ['/signup'];
+  const {state,dispatch} = useContext(UserContext);
+  const user = state.userData
+  // const showSidebar = !noSidebarRoutes.includes(pathname);
+  // if(!showSidebar){
+  //   return <></>
+  // }
   const [open, setOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({});
-
+  useEffect(() => {
+    if (!user) {
+      const _user = getMeServiceInstance().getMyData();
+      console.log("user loadded",_user);
+      
+      dispatch({ type: 'LOGIN_SUCCESS', payload: _user });
+    }
+  }, [state, dispatch,user]);
   // Sidebar links with submenus
   const links = [
     {
@@ -66,11 +77,11 @@ export function SideBarMain() {
       [label]: !prev[label],
     }));
   };
-
+  
   return (
     <div className="dark h-screen sticky left-0 top-0 shadow-lg shadow-white">
       <Sidebar open={open} setOpen={setOpen}>
-        <SidebarBody className="justify-between gap-2 whitespace-nowrap">
+        <SidebarBody className="justify-between gap-2 whitespace-nowrap overflow-hidden">
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             <div className="mt-4 flex flex-col">
               {links.map((link, idx) => (
@@ -125,7 +136,9 @@ export function SideBarMain() {
               ))}
             </div>
           </div>
+        <h3 className="text-orange-500">{user?.username|| "no user name"}</h3>
         </SidebarBody>
+        
       </Sidebar>
     </div>
   );

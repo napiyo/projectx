@@ -2,7 +2,8 @@ import { SparklesCore } from "@/components/ui/sparkles";
 
 export default function flowbuilderLoading(){
     return (
-    <div className="h-screen w-full flex items-center justify-center bg-black">
+    <div className="h-screen w-full flex items-center flex-col justify-center bg-black">
+        <div className="w-full text-center text-white text-2xl my-5">Loading...</div>
                <div className="w-[40rem] h-40 relative">
         {/* Gradients */}
         <div className="absolute inset-x-20 top-0 bg-gradient-to-r from-transparent via-indigo-500 to-transparent h-[2px] w-3/4 blur-sm" />
@@ -19,7 +20,7 @@ export default function flowbuilderLoading(){
           className="w-full h-full"
           particleColor="#FFFFFF"
         />
-        <div className="w-full text-center text-white">Loading....</div>
+      
         </div>
 
     </div>)

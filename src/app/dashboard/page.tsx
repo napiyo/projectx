@@ -1,8 +1,10 @@
-export default function Dashboard()
+export default async function Dashboard()
 {
-    return (<>
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+     return (<>
     <div className="h-screen w-full bg-black text-white">
         Dashboard
         </div>
         </>)
+   
 }
