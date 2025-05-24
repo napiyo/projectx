@@ -75,7 +75,7 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
     <div className="w-[275px]">
       <DragHereComp nodeId={id} notDeleteAble/>
       <div className="bg-blue-200 rounded-lg p-2 flex flex-col gap-2">
-        <div className="bg-white p-2 rounded-sm">
+        <div className="dark:bg-slate-800 bg-gray-200 p-2 rounded-sm">
 
         <h3 className="text-sm font-semibold">Check if last Message</h3>
         <Select
@@ -85,7 +85,7 @@ export function CheckMsg({ id, data }: { id: string; data: checkMsgData }) {
           // onValueChange={(val) => updateNodeData(id, { msgType: val })}
           onValueChange={(val:checkMsgTypes['msgType'])=>setcurrMsgType(val)}
         >
-          <SelectTrigger className="w-full bg-inherit bg-white">
+          <SelectTrigger className="w-full bg-inherit">
             <SelectValue placeholder="If Message" />
           </SelectTrigger>
           <SelectContent>

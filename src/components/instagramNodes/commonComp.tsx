@@ -46,7 +46,7 @@ export function DragHereComp({ hidden,nodeId,notDeleteAble }: { hidden?: boolean
       >
         Drag from here
       </div>
-     {!notDeleteAble && <div className="bg-white cursor-pointer absolute right-3 bottom-0 p-1 rounded-t-sm"
+     {!notDeleteAble && <div className="bg-black cursor-pointer absolute right-3 bottom-0 p-1 rounded-t-sm border-white border-2 border-b-0"
       onClick={deleteItem}><IconTrash  className="text-red-600  "/></div>}
     </div>
   );

@@ -30,7 +30,7 @@ function ActionButton({ button,removeButton, nodeid  }:{button:Button,removeButt
                exit={{ opacity: 0, scale:0.2 }} // Exit animation (optional, for deletion)
                transition={{ duration: 0.2 }} 
               >
-                <button className="group w-full h-11 bg-white relative inline-flex items-center font-semibold justify-center overflow-hidden p-4 px-6 py-3 text-base ease-out rounded-md cursor-grab"
+                <button className="group w-full h-11 bg-slate-300 dark:bg-gray-800 relative inline-flex items-center font-semibold justify-center overflow-hidden p-4 px-6 py-3 text-base ease-out rounded-md cursor-grab"
                  onPointerDown={(e) => {
                   controls.start(e); // Start dragging
                   // setisReordering(true);

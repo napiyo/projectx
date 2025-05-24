@@ -17,7 +17,7 @@ export const QuickActionOnFlowBuilder = ({onSave,onRestore,onArrange}:{onSave:()
           opacity: 0,
         }));
       }}
-      className="relative mx-auto flex w-fit rounded-lg bg-white p-1"
+      className="relative mx-auto flex w-fit rounded-lg bg-slate-200 p-1 dark:bg-gray-800"
     >
       <Tab setPosition={setPosition} onClick={onSave}>Save</Tab>
       <Tab setPosition={setPosition} onClick={onRestore}>Edit</Tab>
@@ -69,7 +69,7 @@ const Cursor = ({ position }: { position: Position }) => {
       animate={{
         ...position,
       }}
-      className="absolute z-0 h-5 rounded-lg bg-black md:h-8"
+      className="absolute z-0 h-5 rounded-lg bg-black md:h-8 dark:bg-white"
     />
   );
 };

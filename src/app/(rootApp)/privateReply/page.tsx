@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { TagsInput } from "react-tag-input-component";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface Post{
     mediaID:number, reply: string, keywords: string[]
@@ -36,20 +37,21 @@ function SelectPostContent(PrivateReplyData:Post[],newPrivateReplyData:Post ,set
     
     // const [selectedPost, setSelectedPost] = useState<number | null>(null);
 
-    return (
-        <div className="flex flex-wrap gap-2 max-h-[20em] overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4B5563 #1F2937' }}>
-            <style jsx>{`
+    return (<ScrollArea className="max-h-[2em]">
+
+        <div className="flex flex-wrap gap-2 overflow-y-auto" style={{ scrollbarWidth: 'thin', scrollbarColor: '#4B5563 #1F2937' }}>
+            {/* <style jsx>{`
             ::-webkit-scrollbar {
                 width: 8px;
-            }
-            ::-webkit-scrollbar-thumb {
-                background-color: #4B5563;
-                border-radius: 9999px;
-            }
-            ::-webkit-scrollbar-track {
-                background-color: #1F2937;
-            }
-            `}</style>
+                }
+                ::-webkit-scrollbar-thumb {
+                    background-color: #4B5563;
+                    border-radius: 9999px;
+                    }
+                    ::-webkit-scrollbar-track {
+                        background-color: #1F2937;
+                        }
+                        `}</style> */}
             {PrivateReplyData.map((post, index) => (
                 <div
                     key={post.mediaID}
@@ -69,6 +71,7 @@ function SelectPostContent(PrivateReplyData:Post[],newPrivateReplyData:Post ,set
                 </div>
             ))}
         </div>
+</ScrollArea>
     );
   
 }
@@ -124,7 +127,7 @@ export default function PrivateReply() {
 
 
 
-return (<div className="bg-black flex-1 max-h-screen h-full w-full text-white p-5 flex flex-row">
+return (<div className="flex-1 h-full w-full text-white p-5 flex flex-row">
     <div className="flex-1 pt-10 px-10">
         <div className="flex flex-col gap-2 mb-16">
             <h1 className="text-4xl text-center">Private Reply</h1>

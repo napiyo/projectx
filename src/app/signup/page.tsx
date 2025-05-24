@@ -70,13 +70,13 @@ export default  function Signup() {
 
     const words = ["New world", "Infinite possibilities", "Real growth", "ProjectX"];
     return (
-        <div className="dark flex flex-1 h-screen w-full bg-black relative">
-            <BackgroundBeamsWithCollision className="flex-1 bg-black justify-center items-center flex">
-                <div className="text-white text-4xl font-bold animate-pulse">Welcome to {<FlipWords words={words} />}</div>
+        <div className="flex flex-col flex-1 h-screen w-screen relative md:flex-row">
+            <BackgroundBeamsWithCollision className="flex-1 justify-center items-center flex">
+                <div className=" text-4xl font-bold animate-pulse text-center mx-auto">Welcome to {<FlipWords words={words} />}</div>
             </BackgroundBeamsWithCollision>
 
             {/* Right Box starts */}
-            <motion.div className="flex-1 bg-black justify-center items-center flex">
+            <div className="flex-1 justify-center items-center flex">
                 {loading ? (
                     
                         <div className="text-white text-xl animate-pulse">{loading}</div>
@@ -85,7 +85,7 @@ export default  function Signup() {
                     <div onClick={()=> {
                         setloading("Redirecting to instagram")
                      AuthServiceInstance.oAuthInstaURL()
-                     }} className="flex justify-center w-1/2 mx-auto mt-16 transform hover:scale-105 transition-transform duration-300">
+                     }} className="flex justify-center w-1/2 mx-auto mt-16 transform hover:scale-105 transition-transform duration-300 max-md:w-3/4 ">
                         <MovingBorderButton
                             duration={2500}
                             className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 border-0"
@@ -98,7 +98,7 @@ export default  function Signup() {
                         </MovingBorderButton>
                     </div>
                 )}
-            </motion.div>
+            </div>
         </div>
     );
 }

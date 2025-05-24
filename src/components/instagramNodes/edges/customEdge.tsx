@@ -54,8 +54,8 @@ const CustomEdge = ({
     <>
       <path
         id={"edgePath"+id}
-        style={{ stroke: 'white', strokeWidth: 1 }}
-        className="react-flow__edge-path"
+        style={{strokeWidth: 1 }}
+        className="react-flow__edge-path stroke-black dark:stroke-white"
         d={edgePath}
       />
       {

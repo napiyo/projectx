@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { UserContext } from "@/lib/dataContext";
 import { getMeServiceInstance } from "@/lib/api/user";
+import {motion} from 'framer-motion'
 
 export function SideBarMain() {
   // const pathname = usePathname();
@@ -118,8 +119,16 @@ export function SideBarMain() {
                   )}
 
                   {/* Submenu */}
-                  {link.subMenu && expandedMenus[link.label] && (
-                    <div className="ml-8 flex flex-col gap-1 mt-1">
+                  {link.subMenu &&  (
+                    <motion.div className="ml-8 flex flex-col gap-1 mt-1"
+                    layout
+                    initial={{ opacity: 0, height: expandedMenus[link.label]?'auto':0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    hidden={expandedMenus[link.label]}
+                
+                    >
                       {link.subMenu.map((subLink, subIdx) => (
                         <SidebarLink
                           key={`submenu_${idx}_${subIdx}`}
@@ -130,7 +139,7 @@ export function SideBarMain() {
                           }}
                         />
                       ))}
-                    </div>
+                    </motion.div>
                   )}
                 </div>
               ))}

@@ -71,6 +71,8 @@ function FloatingDockBtn({
         case "checkMsgNode":
           data = {checkConditions:[],keywords:[],exactMatch:""}
           break;
+        case "checkUserNode":
+          data = {checkConditions:[]}
         default:
           data = {title:"",subtitle:"",buttons:[]}
           break;
@@ -92,7 +94,7 @@ function FloatingDockBtn({
           style={{ width, height }}
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          className="aspect-square rounded-full bg-gray-200 dark:bg-gray-300 flex items-center justify-center relative cursor-pointer"
+          className="aspect-square rounded-full bg-gray-200 dark:bg-slate-800 flex items-center justify-center relative cursor-pointer"
            onClick={addNode}
         >
           <AnimatePresence>

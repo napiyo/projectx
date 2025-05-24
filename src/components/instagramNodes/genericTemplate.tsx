@@ -108,7 +108,7 @@ const GenericTemplateGeneralNode = ({
       <div
         className={` ${type == "buttonTemplate" ? "rounded-t-2xl" : ""} ${
           style.contentContainer
-        }`}
+        } bg-grey-200 dark:bg-slate-800`}
       >
         {/* Title and sub-heading box  */}
         <div
@@ -140,7 +140,7 @@ const GenericTemplateGeneralNode = ({
                 // setData((d) => ({ ...d, subtitle: e.target.value.trimStart() }))
                 updateNodeData(id, { subtitle: e.target.value.trimStart() })
               }
-              className="text-sm w-2/3 h-8 text-ellipsis text-gray-500 font-semibold bg-transparent mt-2"
+              className="text-sm w-2/3 h-8 text-ellipsis font-semibold bg-transparent mt-2"
             />
           )}
         </div>

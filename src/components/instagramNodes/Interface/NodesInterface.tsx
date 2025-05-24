@@ -29,6 +29,10 @@ export interface Button {
   export interface checkMsgTypes {
     msgType: "contains" | "exact" | "isEmail" | "isNumber"  | "isPhoneNumber" | "isLink"; 
   }
+  
+  export interface checkuserTypes {
+    userChecks: "isVerified" | "hasFollowers" | "followsYou"; 
+  }
   export interface checkMsgData {
     keywords:string[],
     exactMatch:string,

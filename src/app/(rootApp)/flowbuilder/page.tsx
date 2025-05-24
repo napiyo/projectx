@@ -87,10 +87,58 @@ export default function FlowBuilder() {
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [setNodes]
   );
+  // const onEdgesChange: OnEdgesChange = useCallback(
+  //   (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+  //   [setEdges]
+  // );
+
   const onEdgesChange: OnEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
+    (changes) => {
+      const deletions = changes.filter((change) => change.type === "remove");
+  
+      setEdges((prevEdges) => {
+        let newEdges = applyEdgeChanges(changes, prevEdges);
+        let newNodes = [...nodes]; // clone current nodes for safe update
+  
+        deletions.forEach((deleted) => {
+          const deletedEdge = prevEdges.find((edge) => edge.id === deleted.id);
+          if (!deletedEdge) return;
+  
+          const targetNode = nodes.find((node) => node.id === deletedEdge.target);
+          if (!targetNode) return;
+  
+          // Check if the targetNode is connected to a checkMsgNode
+          const targetToCheckMsgEdge = prevEdges.find((edge) => {
+            const maybeCheckMsg = nodes.find((n) => n.id === edge.target);
+            return edge.source === targetNode.id && maybeCheckMsg?.type === "checkMsgNode";
+          });
+  
+          if (targetToCheckMsgEdge) {
+            // Remove the edge from target to checkMsg
+            newEdges = newEdges.filter((e) => e.id !== targetToCheckMsgEdge.id);
+  
+            const checkMsgNodeId = targetToCheckMsgEdge.target;
+  
+            // Check if checkMsgNode has any remaining edges
+            const stillConnectedEdges = newEdges.filter(
+              (edge) => edge.source === checkMsgNodeId || edge.target === checkMsgNodeId
+            );
+  
+            // If no edges remain, remove checkMsgNode
+            if (stillConnectedEdges.length === 0) {
+              newNodes = newNodes.filter((n) => n.id !== checkMsgNodeId);
+            }
+          }
+        });
+  
+        setNodes(newNodes);
+        return newEdges;
+      });
+    },
+    [nodes]
   );
+  
+  
   const onConnect: OnConnect = useCallback(
     (connection) => {
      if(nodes.length >= maxNodes){
@@ -315,7 +363,7 @@ export default function FlowBuilder() {
         onInit={setRfInstance}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
-        colorMode="dark"
+        // colorMode="dark"
         edgeTypes={edgeTypes}
         defaultEdgeOptions={{ type: "customEdge" }}
         proOptions={{ hideAttribution: true }}
@@ -329,15 +377,15 @@ export default function FlowBuilder() {
         </Panel>
         <FloatingDockFlowBuilder />
         <Background />
-        <Controls />
-        <MiniMap />
+        <Controls className="text-black"/>
+        <MiniMap  />
       </ReactFlow>
 
       <Dialog
         open={modalData.open}
         onOpenChange={(open) => setmodalData((d) => ({ ...d, open: open }))}
       >
-        <DialogContent className="bg-black p-8 rounded shadow-lg text-white">
+        <DialogContent className="p-8 rounded shadow-lg">
           <DialogHeader>
             <DialogTitle>{modalData.title}</DialogTitle>
           </DialogHeader>

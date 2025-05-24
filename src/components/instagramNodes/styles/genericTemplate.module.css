@@ -13,7 +13,7 @@
     flex-direction: column;
     padding: 15px;
     row-gap: 5px;
-    background-color: #EFEFEF;
+    /* background-color: hsl(var(--card-bac)); */
     border-end-end-radius: 20px;
     border-end-start-radius: 20px;
     /* overflow: hidden; */
