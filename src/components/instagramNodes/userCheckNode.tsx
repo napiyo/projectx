@@ -25,6 +25,11 @@ import { CheckMsgButton } from "../ui/checkMsgUtils/button";
 export function UserCheckNode({ id, data }: { id: string; data: checkMsgData }) {
   const { updateNodeData } = useReactFlow();
   const updateNodeInternals = useUpdateNodeInternals();
+
+  const [currMsgType, setcurrMsgType] = useState<checkMsgTypes['msgType']>('isEmail');
+  const [keywords, setkeywords] = useState<string[]>(data.keywords || []);
+  const [exactPhrase, setexactPhrase] = useState<string>(data.exactMatch || '');
+
   const addBtn = ()=>{
     let btns = data.checkConditions;
   if(btns.includes(currMsgType)) return;
